@@ -1,131 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Search demo site</title>
-</head>
-<body>
-<h1>Elasticsearch client side demo</h1>
-<div id="search_container">
-    <label for"search">Jogo #1</label>
-    <input type="text" id="search1"/>
-    <label for"search">Jogo #2</label>
-    <input type="text" id="search2"/>
-    <label for"search">Não combinar os resultados?</label>
-    <input type="checkbox" id="filter"/>
-    <input type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('filter').checked)"/>
-</div>
-<h3 id="numbers"> </h3>
-<ol id="hits"></ol>
-<script type="application/javascript">
-  /**
-   * Performs a search request against an Elasticsearch server.
-   * @param {string} needle
-   *   The string to search for.
-   * @param {string} filter      
-   *   A string to use to filter by type. For example: 'article';
-   */
-  function doSearch (needle) {
-    var searchHost = 'http://localhost:9200/reviews/_search';
-    
-    var body = {
-      'size': 20
-      };
-    var query = {
-        'bool': {}
-      };
-      query.bool.must = {
-        'match': {
-            "comments": needle
-        }
-      };
-    
-    body.query = query;
+	<head>
+		<meta charset="utf-8">
+		<title>GameKettle - Plataforma</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    // Perform the request.
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open('POST', searchHost, false);
-    xmlHttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xmlHttp.send(JSON.stringify(body));
-    var response = JSON.parse(xmlHttp.responseText);
-    return response.hits.hits;
-  }
+		<!-- icons -->
+		<link rel="apple-touch-icon" href="assets/img/iconsmall.png">
+		<link rel="shortcut icon" href="favicon.ico">
 
-  function execute(needle1, needle2, filter){
-    var games = null;
-    var gamesfiltered = null;
+		<!-- Override CSS file - add your own CSS rules -->
+		<link rel="stylesheet" href="assets/css/styles.css">
+	</head>
+	<body>
+		<div class="header">
+				<div class="container">
+					<h1 class="header-heading"><img id="centro" src="assets/img/logo.png"></h1>
+				</div>
+		</div>
 
-    if (needle1 != ""){
-      games = {};
-      var response = doSearch(needle1);
-      for (i in response){
-        text = JSON.stringify(response[i]);
-        informations = text.split('"name":"')[1].split('","comments":');
-        games[informations[0]] = informations[1];
-      }
-    }
-    
-    if (needle2 != ""){
-      gamesfiltered = {};
-      response = doSearch(needle2);
-      for (i in response){
-        text = JSON.stringify(response[i]);
-        informations = text.split('"name":"')[1].split('","comments":');
-        if (filter){
-          if(informations[0] in games){
-            gamesfiltered[informations[0]] = informations[1];
-          }
-        }else{
-          games[informations[0]] = informations[1];
-        }
-      }
-    }
-
-    if (filter && gamesfiltered != null)
-      games= gamesfiltered;
-
-    var showList="";
-    for (var key in games){
-      String.prototype.replaceAll = function(search, replacement) {
-        var target = this;
-        return target.split(search).join(replacement);
-      };
-      var comments = games[key].split('","');
-      comments.splice(0,1);
-      comments = comments.join("<\li>")
-      comments = comments.replaceAll("}","");
-      comments = comments.replaceAll("[","");
-      comments = comments.replaceAll("]","");
-      comments = comments.replaceAll('"',"");
-
-      showList = showList + "<li> <div> <h3>" + key + "</h3> <ul> <li>" + comments + "<ul> </div> </li>";
-    }
-
-    document.getElementById('numbers').innerHTML = Object.keys(games).length + " " + filter; 
-    document.getElementById('hits').innerHTML = showList;
-
-    }
-
-    /**
-     * Helper function to obtain the value of a set of radio buttons.
-     *
-     * @param {string} name
-     *   The name of the radio elements.
-     * @returns {string}
-     *   The selected value or an empty string if nothing was selected.
-     */
-    function getRadioButtonValue (name) {
-      var radios = document.getElementsByName(name);
-
-      for (var i = 0, length = radios.length; i < length; i++) {
-      if (radios[i].checked) {
-      return radios[i].value;
-      }
-      }
-      return '';
-  }
-
-  doSearch('', '');
-</script>
-</body>
+		<div class="nav-bar">
+			<div class="container">
+				<ul class="nav">
+					<li><a href="index.html">Plataforma</a></li>
+					<li><a href="sobre.html">Sobre</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<div class="container">
+				<div class="main">
+						<div id="search_container">
+							<label for"search">Jogo #1</label>
+							<input type="text" id="search1"/>
+							<label for"search">Jogo #2</label>
+							<input type="text" id="search2"/>
+							<label for"search">Não combinar os resultados?</label>
+							<input type="checkbox" id="filter"/>
+							<input type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('filter').checked)"/>
+						</div>
+						<h3 id="numbers"> </h3>
+						<ol id="hits"></ol>
+						<script type="application/javascript">
+						  /**
+						   * Performs a search request against an Elasticsearch server.
+						   * @param {string} needle
+						   *   The string to search for.
+						   * @param {string} filter      
+						   *   A string to use to filter by type. For example: 'article';
+						   */
+						  function doSearch (needle) {
+							var searchHost = 'http://localhost:9200/reviews/_search';
+							
+							var body = {
+							  'size': 20
+							  };
+							var query = {
+								'bool': {}
+							  };
+							  query.bool.must = {
+								'match': {
+									"comments": needle
+								}
+							  };
+							
+							body.query = query;
+							// Perform the request.
+							var xmlHttp = new XMLHttpRequest();
+							xmlHttp.open('POST', searchHost, false);
+							xmlHttp.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+							xmlHttp.send(JSON.stringify(body));
+							var response = JSON.parse(xmlHttp.responseText);
+							return response.hits.hits;
+						  }
+						  function execute(needle1, needle2, filter){
+							var games = null;
+							var gamesfiltered = null;
+							if (needle1 != ""){
+							  games = {};
+							  var response = doSearch(needle1);
+							  for (i in response){
+								text = JSON.stringify(response[i]);
+								informations = text.split('"name":"')[1].split('","comments":');
+								games[informations[0]] = informations[1];
+							  }
+							}
+							
+							if (needle2 != ""){
+							  gamesfiltered = {};
+							  response = doSearch(needle2);
+							  for (i in response){
+								text = JSON.stringify(response[i]);
+								informations = text.split('"name":"')[1].split('","comments":');
+								if (filter){
+								  if(informations[0] in games){
+									gamesfiltered[informations[0]] = informations[1];
+								  }
+								}else{
+								  games[informations[0]] = informations[1];
+								}
+							  }
+							}
+							if (filter && gamesfiltered != null)
+							  games= gamesfiltered;
+							var showList="";
+							for (var key in games){
+							  String.prototype.replaceAll = function(search, replacement) {
+								var target = this;
+								return target.split(search).join(replacement);
+							  };
+							  var comments = games[key].split('","');
+							  comments.splice(0,1);
+							  comments = comments.join("<\li>")
+							  comments = comments.replaceAll("}","");
+							  comments = comments.replaceAll("[","");
+							  comments = comments.replaceAll("]","");
+							  comments = comments.replaceAll('"',"");
+							  showList = showList + "<li> <div> <h3>" + key + "</h3> <ul> <li>" + comments + "<ul> </div> </li>";
+							}
+							document.getElementById('numbers').innerHTML = Object.keys(games).length + " " + filter; 
+							document.getElementById('hits').innerHTML = showList;
+							}
+							/**
+							 * Helper function to obtain the value of a set of radio buttons.
+							 *
+							 * @param {string} name
+							 *   The name of the radio elements.
+							 * @returns {string}
+							 *   The selected value or an empty string if nothing was selected.
+							 */
+							function getRadioButtonValue (name) {
+							  var radios = document.getElementsByName(name);
+							  for (var i = 0, length = radios.length; i < length; i++) {
+							  if (radios[i].checked) {
+							  return radios[i].value;
+							  }
+							  }
+							  return '';
+						  }
+						  doSearch('', '');
+						</script>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+				&copy; Copyright 2018.
+				<a target="_blank" href="https://www.Vecteezy.com/">Cr&eacute;ditos das ilustra&ccedil;&otilde;es https://www.vecteezy.com.</a>
+				Editados por El&aacute;dia Cristina Corr&ecirc;a
+			</div>
+	</body>
 </html>
