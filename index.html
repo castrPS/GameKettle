@@ -11,11 +11,11 @@
     <input type="text" id="search1"/>
     <label for"search">Jogo #2</label>
     <input type="text" id="search2"/>
-    <label for"search">Jogo #3</label>
-    <input type="text" id="search3"/>
-    <input type="checkbox" id="join"/>
-    <input type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('search3').value)"/>
+    <label for"search">Não combinar os resultados?</label>
+    <input type="checkbox" id="filter"/>
+    <input type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('filter').checked)"/>
 </div>
+<h3 id="numbers"> </h3>
 <ol id="hits"></ol>
 <script type="application/javascript">
   /**
@@ -51,13 +51,14 @@
     return response.hits.hits;
   }
 
-  function execute(needle1, needle2, needle3){
-    var games = {};
+  function execute(needle1, needle2, filter){
+    var games = null;
+    var gamesfiltered = null;
 
     if (needle1 != ""){
+      games = {};
       var response = doSearch(needle1);
       for (i in response){
-        var game;
         text = JSON.stringify(response[i]);
         informations = text.split('"name":"')[1].split('","comments":');
         games[informations[0]] = informations[1];
@@ -65,29 +66,42 @@
     }
     
     if (needle2 != ""){
+      gamesfiltered = {};
       response = doSearch(needle2);
       for (i in response){
-        var game;
         text = JSON.stringify(response[i]);
         informations = text.split('"name":"')[1].split('","comments":');
-        games[informations[0]] = informations[1];
+        if (filter){
+          if(informations[0] in games){
+            gamesfiltered[informations[0]] = informations[1];
+          }
+        }else{
+          games[informations[0]] = informations[1];
+        }
       }
     }
 
+    if (filter && gamesfiltered != null)
+      games= gamesfiltered;
 
-    if (needle3 != ""){
-      response = doSearch(needle3);
-      for (i in response){
-        var game;
-        text = JSON.stringify(response[i]);
-        informations = text.split('"name":"')[1].split('","comments":');
-        games[informations[0]] = informations[1];
-      }
-    }
     var showList="";
     for (var key in games){
-      showList = showList + "<li>" + key + "</li>";
+      String.prototype.replaceAll = function(search, replacement) {
+        var target = this;
+        return target.split(search).join(replacement);
+      };
+      var comments = games[key].split('","');
+      comments.splice(0,1);
+      comments = comments.join("<\li>")
+      comments = comments.replaceAll("}","");
+      comments = comments.replaceAll("[","");
+      comments = comments.replaceAll("]","");
+      comments = comments.replaceAll('"',"");
+
+      showList = showList + "<li> <div> <h3>" + key + "</h3> <ul> <li>" + comments + "<ul> </div> </li>";
     }
+
+    document.getElementById('numbers').innerHTML = Object.keys(games).length + " " + filter; 
     document.getElementById('hits').innerHTML = showList;
 
     }
