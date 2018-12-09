@@ -1,6 +1,9 @@
 /* -----------------------
 Base styles
 ------------------------*/
+*{
+	background-color: transparent;
+}
 
 body
 {
@@ -66,7 +69,7 @@ th, td
 a:link { color: royalblue; }
 a:visited { color: purple; }
 a:focus { color: black; }
-a:hover { color: green; }
+a:hover { color: #1ab78f; }
 a:active { color: red; }
 
 /* -----------------------
@@ -100,11 +103,37 @@ Layout styles
 	padding: 0;
 }
 
-.content
-{
+#search_container{
+	display: float;
+	align-items: center;
+}
+
+#game_selection{
+	width: 50%;
+	margin-left: 25%;
+	margin-right: 25%;
+	margin-bottom: 10px;
+	text-align: center;
+	color: #1ab78f;
+	font-weight: bold;
+}
+
+#game_selection input{
+	border-radius: 10%;
+	border-color: #1ab78f;
+	background-color: #ffffff;
+}
+
+#submit{
+	width: 30%;
+	margin-left: 35%;
+	margin-right: 35%;
+}
+
+.content{
 	overflow: hidden;
 	padding: 1em 1.25em;
-	background-color: #fff;
+	background-color: transparent;
 }
 
 .main, .aside
@@ -161,7 +190,7 @@ Nav
 .nav a:hover
 {
 	color: white;
-	background-color: green;
+	background-color: #1ab78f;
 }
 
 .nav a:active
@@ -198,7 +227,7 @@ Single styles
 .btn:hover
 {
 	color: #fff !important;
-	background-color: green;
+	background-color: #1ab78f;
 }
 
 .btn:focus

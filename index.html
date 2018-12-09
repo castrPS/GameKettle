@@ -28,16 +28,18 @@
 			</div>
 		</div>
 		<div class="content">
-			<div class="container">
-				<div class="main">
 						<div id="search_container">
-							<label for"search">Jogo #1</label>
-							<input type="text" id="search1"/>
-							<label for"search">Jogo #2</label>
-							<input type="text" id="search2"/>
-							<label for"search">Não combinar os resultados?</label>
-							<input type="checkbox" id="filter"/>
-							<input type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('filter').checked)"/>
+							<div id="game_selection">
+								<label for"search">Jogo #1</label>
+								<input type="text" id="search1"/>
+								<label for"search">Jogo #2</label>
+								<input type="text" id="search2"/>
+							</div>
+							<div id="game_selection">
+									<label for"search">Não combinar os resultados?</label>
+									<input type="checkbox" id="filter"/>
+							</div>
+							<input id="submit" type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('filter').checked)"/>
 						</div>
 						<h3 id="numbers"> </h3>
 						<ol id="hits"></ol>
@@ -74,10 +76,9 @@
 							return response.hits.hits;
 						  }
 						  function execute(needle1, needle2, filter){
-							var games = null;
+							var games = {};
 							var gamesfiltered = null;
 							if (needle1 != ""){
-							  games = {};
 							  var response = doSearch(needle1);
 							  for (i in response){
 								text = JSON.stringify(response[i]);
@@ -92,7 +93,7 @@
 							  for (i in response){
 								text = JSON.stringify(response[i]);
 								informations = text.split('"name":"')[1].split('","comments":');
-								if (filter){
+								if (filter && needle1 != ""){
 								  if(informations[0] in games){
 									gamesfiltered[informations[0]] = informations[1];
 								  }
@@ -101,7 +102,7 @@
 								}
 							  }
 							}
-							if (filter && gamesfiltered != null)
+							if (filter && gamesfiltered != null && needle1 != "")
 							  games= gamesfiltered;
 							var showList="";
 							for (var key in games){
@@ -141,8 +142,6 @@
 						  doSearch('', '');
 						</script>
 				</div>
-			</div>
-		</div>
 		<div class="footer">
 				&copy; Copyright 2018.
 				<a target="_blank" href="https://www.Vecteezy.com/">Cr&eacute;ditos das ilustra&ccedil;&otilde;es https://www.vecteezy.com.</a>
