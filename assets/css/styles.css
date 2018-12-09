@@ -148,6 +148,7 @@ Layout styles
 	overflow: hidden;
 	padding: 1em 1.25em;
 	background-color: transparent;
+	margin-bottom: 150px;
 }
 
 .main, .aside
@@ -164,6 +165,7 @@ Layout styles
 	position: fixed;
 	bottom: 0;
 	width: 100%;
+	text-align: center;
 }
 
 /* -----------------------
