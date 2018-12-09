@@ -51,6 +51,23 @@
 						   * @param {string} filter      
 						   *   A string to use to filter by type. For example: 'article';
 						   */
+
+							var codes={};
+							var lines;
+							
+							fetch('games.csv')
+  								.then(response => response.text())
+  								.then(function (text){
+										lines = text.split(';');
+										//alert(lines);
+										for (i in lines){
+											var info = lines[i].split(',');
+											codes[info[1]] = info[0];
+											//alert(info[1]);
+											//alert(info[0]);
+										}
+									});
+
 						  function doSearch (needle) {
 							var searchHost = 'http://localhost:9200/reviews/_search';
 							
@@ -76,6 +93,7 @@
 							return response.hits.hits;
 						  }
 						  function execute(needle1, needle2, filter){
+							//alert(Object.keys(codes));
 							var games = {};
 							var gamesfiltered = null;
 							if (needle1 != ""){
@@ -117,9 +135,9 @@
 							  comments = comments.replaceAll("[","");
 							  comments = comments.replaceAll("]","");
 							  comments = comments.replaceAll('"',"");
-							  showList = showList + "<li> <div> <h3>" + key + "</h3> <ul> <li>" + comments + "<ul> </div> </li>";
+							  showList = showList + '<li> <div> <h3> <a target="_blank"  href= "https://steamcommunity.com/app/' + codes[key] + '">' + codes[key] + '</a> - ' + key + "</h3> <ul> <li>" + comments + "<ul> </div> </li>";
 							}
-							document.getElementById('numbers').innerHTML = Object.keys(games).length + " " + filter; 
+							//document.getElementById('numbers').innerHTML = Object.keys(games).length + " " + filter; 
 							document.getElementById('hits').innerHTML = showList;
 							}
 							/**

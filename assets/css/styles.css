@@ -124,10 +124,24 @@ Layout styles
 	background-color: #ffffff;
 }
 
+#hits{
+	color: #1ab78f;
+	font-weight: bold;
+}
+
+#hits ul{
+	color: #000000;
+	font-weight: 100;
+}
+
 #submit{
-	width: 30%;
-	margin-left: 35%;
-	margin-right: 35%;
+	width: 10%;
+	margin-left: 45%;
+	margin-right: 45%;
+	border-radius: 30%;
+	background-color: #1ab78f;
+	color: #ffffff;
+	font-weight: bold;
 }
 
 .content{
