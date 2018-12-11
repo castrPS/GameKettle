@@ -30,16 +30,32 @@
 		<div class="content">
 						<div id="search_container">
 							<div id="game_selection">
-								<label for"search">Jogo #1</label>
-								<input type="text" id="search1"/>
-								<label for"search">Jogo #2</label>
-								<input type="text" id="search2"/>
+								
+								<p>
+									<label for"search">Jogo #1</label>
+									<input type="text" id="search1"/>
+								</p>
+									
+								<p>
+									<label for"search">Jogo #2</label>
+									<input type="text" id="search2"/>
+								</p>
+
 							</div>
-							<div id="game_selection">
-									<label for"search">Não combinar os resultados?</label>
-									<input type="checkbox" id="filter"/>
-							</div>
-							<input id="submit" type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('filter').checked)"/>
+
+							<p>
+									<div id="game_selection">
+											<label for"search">Não combinar os resultados?</label>
+											<input type="checkbox" id="filter"/>
+									</div>
+
+							</p>
+
+							<p>
+									<input id="submit" type="submit" onclick="execute(document.getElementById('search1').value, document.getElementById('search2').value, document.getElementById('filter').checked)"/>
+							</p>
+							
+							
 						</div>
 						<h3 id="numbers"> </h3>
 						<ol id="hits"></ol>

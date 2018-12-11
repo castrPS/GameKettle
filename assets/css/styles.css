@@ -146,13 +146,23 @@ Layout styles
 }
 
 #submit{
-	width: 10%;
+	width: 110px;
+	height: 20px;
 	margin-left: 45%;
 	margin-right: 45%;
-	border-radius: 30%;
 	background-color: #1ab78f;
+	border-color: #1ab78f;
 	color: #ffffff;
 	font-weight: bold;
+	text-shadow: 0 1px 0 rgba(0,0,0,.2);
+	border: 1px solid #bbb;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	background-clip: padding-box;
+	border-radius: 3px;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+	text-align: center;
 }
 
 .content{
